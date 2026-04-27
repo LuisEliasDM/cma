@@ -1,0 +1,15 @@
+Thumbs.db
+.DS_Store
+.gradle
+.slcache
+build/
+out/
+target/
+.idea
+*.iml
+*.ipr
+*.iws
+.apiProject
+.settings
+.classpath
+.asscache

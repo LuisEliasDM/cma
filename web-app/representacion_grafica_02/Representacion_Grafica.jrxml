@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Representacion_Grafica" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3f9782d9-0514-4528-84c0-0bc0a3a6d598">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1106"/>
+	<import value="java.awt.Image"/>
+	<parameter name="representacion_grafica_id" class="java.lang.String"/>
+	<parameter name="hints" class="java.util.Map"/>
+	<queryString>
+		<![CDATA[SELECT 
+t.folio_control,
+t.libro,
+t.foja,
+DATE_FORMAT(e.fecha_expedicion, "%Y-%m-%d") AS fecha_expedicion,
+p.curp,
+p.nombre,
+p.primer_apellido,
+p.segundo_apellido,
+CONCAT(p.nombre, " ", p.primer_apellido, " ", p.segundo_apellido) AS nombre_completo,
+i.nombre_institucion,
+i.cve_institucion,
+c.nombre_carrera,
+c.cve_carrera,
+c.autorizacion_reconocimiento,
+IF(LENGTH(TRIM(c.numero_rvoe)) > 0, c.numero_rvoe, "N/A") AS numero_rvoe,
+DATE_FORMAT(c.fecha_inicio, "%Y-%m-%d") AS fecha_inicio,
+DATE_FORMAT(c.fecha_terminacion, "%Y-%m-%d") AS fecha_terminacion,
+IF(e.id_modalidad_titulacion = 1, "exención de ", "") AS excencion,
+IF(e.id_modalidad_titulacion = 1, DATE_FORMAT(e.fecha_examen_profesional, "%Y-%m-%d"), DATE_FORMAT(e.fecha_exencion_examen_profesional, "%Y-%m-%d")) AS fecha_examen,
+e.entidad_federativa,
+r.cadena_original,
+r.sello,
+r.certificado_responsable,
+r.no_certificado_responsable,
+DATE_FORMAT(r.fecha_registro, "%Y-%m-%dT%H:%i:%s") as fecha_certificacion,
+COUNT(*) AS numero_firmas,
+rg.codigo AS codigo_generacion,
+DATE_FORMAT(rg.fecha_registro, "%Y-%m-%d %T") AS fecha_generacion,
+GROUP_CONCAT(
+CONCAT("\t- ", REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(r.cargo, "Á", "A"), "É", "E"), "Í", "I"), "Ó", "O"), "Ñ", "N"), "Ú", "U"), ": ", UPPER(r.abr_titulo), " ", UPPER(r.nombre)," ",UPPER(r.primer_apellido)," ", UPPER(r.segundo_apellido)
+) SEPARATOR '\n') AS firmantes,
+CONCAT(UPPER(r.abr_titulo), " ", UPPER(r.nombre)," ",UPPER(r.primer_apellido)," ", UPPER(r.segundo_apellido), ", ", UPPER(pu.cargo)) AS firmante
+FROM repg_representacion_grafica rg 
+JOIN xml_titulo_electronico t ON rg.titulo_electronico_id = t.id AND rg.id = $P{representacion_grafica_id}
+LEFT JOIN xml_institucion i ON i.id = t.institucion_id
+LEFT JOIN xml_carrera c ON c.id = t.carrera_id
+LEFT JOIN xml_profesionista p on p.id = t.profesionista_id
+LEFT JOIN xml_expedicion e ON e.id = t.expedicion_id
+LEFT JOIN xml_antecedente a ON a.id = t.antecedente_id
+LEFT JOIN xml_firma_responsables frs ON frs.id = t.firma_responsables_id 
+LEFT JOIN xml_firma_responsable r ON frs.id = r.firma_responsables_id
+LEFT JOIN (
+SELECT * FROM seg_perfil pu GROUP BY pu.curp
+) pu ON pu.curp = r.curp
+GROUP BY t.id]]>
+	</queryString>
+	<field name="folio_control" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="libro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="foja" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_expedicion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="curp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="primer_apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="segundo_apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="nombre_institucion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cve_institucion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_carrera" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cve_carrera" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="autorizacion_reconocimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_rvoe" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_inicio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_terminacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="excencion" class="java.lang.String"/>
+	<field name="fecha_examen" class="java.lang.String"/>
+	<field name="entidad_federativa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cadena_original" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sello" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="certificado_responsable" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_certificado_responsable" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_certificacion" class="java.lang.String"/>
+	<field name="numero_firmas" class="java.lang.Long"/>
+	<field name="codigo_generacion" class="java.lang.String"/>
+	<field name="fecha_generacion" class="java.lang.String"/>
+	<field name="firmantes" class="java.lang.String"/>
+	<field name="firmante" class="java.lang.String"/>
+	<detail>
+		<band height="792" splitType="Immediate">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" mode="Transparent" x="0" y="0" width="612" height="792" uuid="f74da3ca-6449-4a94-997a-351ef8ef0478"/>
+				<imageExpression><![CDATA["background.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="48" y="87" width="340" height="16" forecolor="#000000" uuid="fe90b746-7f01-49ca-a29e-ecdd79d97e20"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estados Unidos Mexicanos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="101" width="340" height="18" forecolor="#000000" uuid="2efa9d36-c8a9-4e5b-8db9-8e4d68c1ad38"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instituto de la Educación Básica del Estado de Morelos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="116" width="340" height="18" forecolor="#000000" uuid="1102b823-f872-48f1-aea2-a25a32830d55"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título Profesional Electrónico]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="48" y="653" width="90" height="90" uuid="5f2e7779-f7e6-4649-8186-9e8fc1631024">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+new com.google.zxing.qrcode.QRCodeWriter().encode(
+"PROFESIONISTA: "+ $F{nombre_completo} +"\nESTUDIOS REALIZADOS: "+ $F{nombre_carrera} +"\nINSTITUCION EDUCATIVA: "+ $F{nombre_institucion} +"\nFOLIO DE CONTROL: "+ $F{folio_control} +"\nVERIFICACION: http://tituloelectronico.iebem.edu.mx/tituloElectronico/verificacion?codigo=" + $F{codigo_generacion},
+com.google.zxing.BarcodeFormat.QR_CODE, 400, 400, java.util.Collections.singletonMap(com.google.zxing.EncodeHintType.MARGIN, 0)))]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="48" y="206" width="172" height="17" forecolor="#000000" backcolor="#333333" uuid="d4992a5f-765e-4589-9848-36acf240a111"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre(s)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="48" y="186" width="172" height="17" backcolor="#F7F7F7" uuid="47f07a6b-5e9c-4eb5-8968-159b5fc67264"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="48" y="151" width="514" height="16" forecolor="#000000" uuid="f38c2e98-df40-44a2-a737-b28f56cc9bd7"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Se otorga a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="206" width="170" height="17" forecolor="#000000" backcolor="#333333" uuid="bc324694-0fe5-423c-be81-25c34c1d51eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Segundo apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="206" width="172" height="17" forecolor="#000000" backcolor="#333333" uuid="e2c4664a-4165-4fa6-9329-0514479c9a53"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Primer apellido]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="219" y="186" width="173" height="17" backcolor="#F7F7F7" uuid="2f8cf668-0bd2-4e5f-b2da-5cb295adb536"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primer_apellido}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="391" y="186" width="171" height="17" backcolor="#F7F7F7" uuid="d971938a-c7ac-40da-be61-083c1a85d485"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segundo_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="48" y="353" width="514" height="27" backcolor="#F7F7F7" uuid="17cc888b-eaba-4e5c-9b00-8c942e5c5e70"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="48" y="312" width="514" height="26" forecolor="#000000" backcolor="#333333" uuid="c069e380-e9b2-4c41-b92b-a3ae6f45fb8b"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[En virtud de que cumplió con el Plan y Programas de estudio autorizados por la Secretaría de Educación Pública y aprobó el examen profesional reglamentario.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="382" width="514" height="17" forecolor="#000000" backcolor="#333333" uuid="0bc2023f-cd6c-4738-a462-b3e52c56b33b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="48" y="398" width="255" height="17" backcolor="#F7F7F7" uuid="7bca6544-21e1-414e-b120-d94eae468674"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cve_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="117" width="172" height="15" forecolor="#000000" backcolor="#D4C19C" uuid="20ad8fa0-30d1-498f-89fc-4242ea13c5a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Clave Única de Registro de Población]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="390" y="131" width="172" height="17" backcolor="#F7F7F7" uuid="86f62b36-9e24-47c0-89b1-645f81444ab6"/>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="48" y="417" width="255" height="17" forecolor="#000000" backcolor="#333333" uuid="d7858cfd-12e3-4cc1-a1f7-f9fb58331761"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Clave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="48" y="523" width="514" height="10" forecolor="#000000" backcolor="#333333" uuid="89c97d96-c12c-4a1a-86e0-b42e5dacfffc"/>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Firma Electrónica del servidor público facultado:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="48" y="533" width="514" height="36" backcolor="#F7F7F7" uuid="22a3b17a-626b-40b4-b4eb-9f2408a2a849"/>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sello}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="48" y="167" width="514" height="15" forecolor="#000000" backcolor="#D4C19C" uuid="dec4e21e-2af4-46a9-94f9-383c06c402fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+					<paragraph spacingBefore="1"/>
+				</textElement>
+				<text><![CDATA[Datos del profesionista]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="48" y="338" width="514" height="15" forecolor="#000000" backcolor="#D4C19C" uuid="2c093c9e-7ca6-4f0d-bb87-f066e5b31054"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+					<paragraph spacingBefore="1"/>
+				</textElement>
+				<text><![CDATA[Datos de la institución educativa]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="307" y="398" width="255" height="17" backcolor="#F7F7F7" uuid="5b4d53f8-239e-4c67-b33c-4a14fe3e78c5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_rvoe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="307" y="417" width="255" height="17" forecolor="#000000" backcolor="#333333" uuid="4f9b3d61-39d4-4d72-8b39-9d7a3b3a914e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Número de autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="48" y="435" width="514" height="15" forecolor="#000000" backcolor="#D4C19C" uuid="7d51d818-3616-4baf-b269-35eb8b1f9544"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+					<paragraph spacingBefore="1"/>
+				</textElement>
+				<text><![CDATA[Datos de la expedición]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="472" width="255" height="17" forecolor="#000000" backcolor="#333333" uuid="f2df6f7f-4aed-473f-a0cc-eeaf45522ce4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Entidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="472" width="255" height="17" forecolor="#000000" backcolor="#333333" uuid="e4c43888-7e8a-4e05-9fed-aac63f985411"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="48" y="453" width="255" height="17" backcolor="#F7F7F7" uuid="371a4058-859f-4200-9667-b0bc3df4b473"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entidad_federativa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="307" y="453" width="255" height="17" backcolor="#F7F7F7" uuid="6ce8a3db-80da-4d7b-8680-71ea9a382cdd"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_expedicion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="48" y="486" width="514" height="15" forecolor="#000000" backcolor="#D4C19C" uuid="163e9356-0c04-4d57-a90e-663f21c8df6d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+					<paragraph spacingBefore="1"/>
+				</textElement>
+				<text><![CDATA[Firma electrónica]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="48" y="510" width="514" height="13" backcolor="#F7F7F7" uuid="841f2715-17e9-4fb2-a26e-926c6a4d5f3b"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Autoridad educativa: " + $F{firmante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="48" y="569" width="514" height="10" forecolor="#000000" backcolor="#333333" uuid="973cc37d-431a-4590-915c-f73b021a1ad9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sello digital:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="48" y="579" width="514" height="36" backcolor="#F7F7F7" uuid="45a728ac-b30b-459d-88c2-7c9b756b4d14">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sello}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="48" y="291" width="126" height="17" forecolor="#000000" backcolor="#333333" uuid="e0399d1f-4526-4a62-bad4-b19c9810b6ca">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Clave]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="306" y="271" width="126" height="17" backcolor="#F7F7F7" uuid="9c4fda49-188e-43f3-b9eb-8e8da92b7c02">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_terminacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="306" y="291" width="126" height="17" forecolor="#000000" backcolor="#333333" uuid="b116f6dd-95c5-4652-9cac-523b83bcf0a3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha de término]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="435" y="271" width="127" height="17" backcolor="#F7F7F7" uuid="58dc717f-9d4e-433d-97f5-c8405e9e55fa">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_examen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="48" y="254" width="514" height="17" forecolor="#000000" backcolor="#333333" uuid="26ad9373-ac0c-4be0-9b69-3831aa634e72"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Plan de estudios]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="435" y="291" width="127" height="17" forecolor="#000000" backcolor="#333333" uuid="28c54f23-b8a3-4dd9-a2ee-b0acf288fa5e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha de examen profesional"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="177" y="271" width="126" height="17" backcolor="#F7F7F7" uuid="5badff09-bfe9-41b9-afeb-53153ed9e8eb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="48" y="223" width="514" height="28" backcolor="#F7F7F7" uuid="8367a858-16da-4732-b743-cdbf330db874"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_carrera}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="48" y="271" width="126" height="17" backcolor="#F7F7F7" uuid="e18a1e69-990d-44a0-8332-4238d80a406b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cve_carrera}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="291" width="126" height="17" forecolor="#000000" backcolor="#333333" uuid="8cf6f52e-b2a5-44cc-861c-2a61e1f4d95d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="87" width="172" height="9" forecolor="#000000" uuid="3c6df575-a72c-4df7-a268-4e929e78965d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Folio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="96" width="172" height="14" forecolor="#000000" uuid="d41f43e8-0d4f-44a2-a1f9-38f75de61040"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{folio_control}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="651" width="422" height="98" uuid="e2e6c990-b91f-4344-ac16-c73bb7bbc6a5"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El presente documento electrónico ha sido firmado mediante el uso de la firma electrónica avanzada por el servidor público competente, amparada por un certificado digital vigente a la fecha de su elaboración, y es válido de conformidad con lo dispuesto en los artículos 1, 2, 3, 7, 13, 18 y 25 de la Ley de Firma Electrónica del Estado Libre y Soberano de Morelos; y 1, 2, 4, 5 fracción XIII, 12, 15, 29, 37 y 38 del Reglamento de la Ley de Firma Electrónica del Estado Libre y Soberano de Morelos y demás aplicables; su integridad y autoría se podrá comprobar por medio del código QR o en: http://tituloelectronico.iebem.edu.mx/tituloElectronico/verificacion?codigo=" + $F{codigo_generacion} + ".\n\n"+
+
+"Con fundamento en lo dispuesto por el artículo 141 de la Ley General de Educación, los títulos de estudios expedidos por instituciones del Sistema Educativo Nacional, tienen validez en la República Mexicana sin necesidad de trámites adicionales de autenticación o legalización, favoreciendo el tránsito de los estudiantes por el Sistema Educativo Nacional."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
