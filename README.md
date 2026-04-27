@@ -22,15 +22,7 @@ docker-compose up -d
 
 ---
 
-## Access
-
-```
-http://localhost:8080
-```
-
----
-
-## Stop
+## Detener
 
 ```bash
 docker-compose down
@@ -38,7 +30,7 @@ docker-compose down
 
 ---
 
-## Notes
+## Notas
 
 * La aplicación se construye en modo producción (`grails prod war`)
 * No requiere variables de entorno
@@ -58,16 +50,7 @@ docker-compose up -d
 
 ---
 
-## Stack
-
-* Grails 2.4.2
-* Java 8
-* Apache Tomcat 8.5
-* Docker / Docker Compose
-
----
-
-## Files
+## Archivos
 
 * `Dockerfile` → Build + runtime
 * `docker-compose.yml` → Servicio de la app
