@@ -25,10 +25,12 @@
         <b>Esta es una instancia para capacitaci&oacute;n y pruebas</b>
     </div>-->
     <div style="padding: 20px;">
-        <a href="${createLink(uri:'/')}"><asset:image style="height: 80px;" src="logo.png" alt="Secretar&iacute;a de Educaci&oacute;n"/></a>
+        <a href="${createLink(uri:'/')}">
+            <img style="height: 50px;" src="https://cma.morelos.gob.mx/index/logo.jpg" alt="Secretaría de Educación"/>
+        </a>
     </div>
     <div id="grailsLogo" role="banner" style="padding-left: 20px; padding-right: 20px; text-align: right; color: #FFF">
-        <sec:ifLoggedIn>                    
+        <sec:ifLoggedIn>
             <sec:loggedInUserInfo field="username"/>
             <g:link controller="perfil" style="color: #FFF">Perfil de usuario</g:link>
             <g:link controller="logout" style="color: #FFF">Cerrar sesi&oacute;n</g:link>
@@ -37,14 +39,7 @@
     <g:layoutBody/>
     <div id="pleca"></div>
     <div class="footer" role="contentinfo">
-        <b>Instituto de la Educaci&oacute;n B&aacute;sica del Estado de Morelos (IEBEM)</b>
-        <br/>
-        Departamento de Control Escolar
-        <br/>
-        Calle Nueva China SN, Col. Lomas de Cort&eacute;s, CP 62240, Cuernavaca, Morelos.
-        <br/>
-        Tel&eacute;fono: 777 102 01 12
-        <br/>
+        <b>CENTRO MORELENSE DE LAS ARTES (CMA)</b>
     </div>
     <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 </body>
