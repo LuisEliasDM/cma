@@ -26,7 +26,7 @@
         Hemos recibido la solicitud de recuperaci&oacute;n de su contrase&ntilde;a, para lo cual deber&aacute; dar click
         en el siguiente link y guardar su nueva contrase&ntilde;a.
         <br/><br/>
-        http://tituloelectronico.iebem.edu.mx/perfil/restablecimientoContrasena?folio=${folio}
+        https://tituloelectronico-cma.morelos.gob.mx/perfil/restablecimientoContrasena?folio=${folio}
         <br/><br/>
         No omito mencionar que el usuario y la clave de acceso son personales e intransferibles.
         <br/><br/>

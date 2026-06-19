@@ -15,9 +15,9 @@ environments {
     development {
         dataSource {
             pooled = true
-            url = "jdbc:mysql://localhost:8889/tituloElectronico"
-            username = "root"
-            password = "root"
+            url = "jdbc:mysql://10.0.44.55:3306/titulo_eCMA"
+            username = "sEducacion"
+            password = "xbdcvgh13tVeHPmSFZIIfhv4bGdQ8RaA"
             properties {
                 maxActive = 50
                 maxIdle = 25
@@ -37,9 +37,9 @@ environments {
     test {
         dataSource {
             pooled = true
-            url = "jdbc:mysql://localhost:3306/tituloElectronico"
-            username = "root"
-            password = ""
+            url = "jdbc:mysql://10.0.44.55:4306/titulo_eCMA"
+            username = "sEducacion"
+            password = "38T8mwqe4Juk8UQeaDUr0DLM4VuNHmvK"
             properties {
                 maxActive = 50
                 maxIdle = 25
@@ -59,9 +59,9 @@ environments {
     production {
         dataSource {
             pooled = true
-            url = "jdbc:mysql://10.0.2.61:3306/tituloElectronicoIEBEM"
-            username = "usrTituloElectIEBEM"
-            password = "L5.k0xKW37"
+            url = "jdbc:mysql://10.0.44.56:3306/titulo_eCMA"
+            username = "sEducacion_prod"
+            password = "jMDEJl9pxP6EQeHukw7hA5tK9Rlu13RH"
             properties {
                 maxActive = 50
                 maxIdle = 25

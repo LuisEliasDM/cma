@@ -44,7 +44,7 @@
                 </ul>
                 <br/>
             </li>
-            <li>Ingresar al link http://tituloelectronico.iebem.edu.mx/perfil/confirmacionCuenta?folio=${folio}</li>
+            <li>Ingresar al link https://tituloelectronico-cma.morelos.gob.mx/perfil/confirmacionCuenta?folio=${folio}</li>
             <li>Descargar, imprimir y firmar la Carta Responsiva</li>
             <li>Agregar copia de su identificaci&oacute;n oficial.</li>
             <li>Entregar Carta y copia de identificaci&oacute;n en el Departamento de Control Escolar del IEBEM, ubicada en Calle Nueva China s/n, Col.

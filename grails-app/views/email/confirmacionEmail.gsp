@@ -26,7 +26,7 @@
         El cambio de correo en tu perfil se ha realizado correctamente, te solicitamos dar click en el
         siguiente link para confirmar este cambio y desbloquear tu cuenta en la plataforma web.
         <br/><br/>
-        http://tituloelectronico.iebem.edu.mx/perfil/confirmarEmail?folio=${folio}
+        https://tituloelectronico-cma.morelos.gob.mx/perfil/confirmarEmail?folio=${folio}
         <br/><br/>
         No omito mencionar que el usuario y la clave de acceso son personales e intransferibles.
         <br/><br/>
